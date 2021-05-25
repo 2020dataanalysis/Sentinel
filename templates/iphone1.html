@@ -1,0 +1,107 @@
+<html>
+
+<head>
+
+    <title>Big Buttons</title>
+
+    <!-- zoom in for iOS-based devices -->
+
+    <meta name="viewport" content="width=300" />
+
+    <meta name="viewport" content="initial-scale=2" />
+
+    <style>
+
+        input { font: larger bold; }
+
+        canvas { background-color: black; }
+
+    </style>
+
+    <script type="text/javascript">
+
+        var can, ctx, hun, n = 0;
+
+
+
+        function init()
+				{
+            can = document.getElementById("can");
+            ctx = can.getContext("2d");
+            hun = document.getElementById("hundred");
+
+            ctx.fillStyle = "rgb(64, 255, 64)";
+
+            ctx.textAlign = "center";
+
+            ctx.textBaseline = "middle";
+
+            ctx.font = "24pt Helvetica";
+
+            showN();
+        }
+
+
+
+        function showN() {
+
+            ctx.clearRect(0, 0, can.width, can.height, 99);
+
+            ctx.fillText(n, can.width / 2, can.height / 2);
+        }
+
+
+
+        function incr()
+				{
+            n++;
+            showN();
+        }
+
+
+
+        function decr() {
+
+            n--;
+
+            showN();
+
+        }
+
+
+
+        function setHundred()
+				{
+            n = hun.value;
+            showN();
+        }
+
+    </script>
+
+</head>
+
+<body onload="init()">
+
+    <canvas id="can" height="100" width="100">
+
+    </canvas>
+
+    <br />
+
+    <input type="button" value=" + " onclick="incr()">
+
+    <input type="button" value=" - " onclick="decr()">
+
+    <select id="hundred" onchange="setHundred()">
+
+        <option value=0> -- </option>
+
+        <option value=100> 100 </option>
+
+        <option value=-100> -100 </option>
+
+    </select>
+
+</body>
+
+</html>

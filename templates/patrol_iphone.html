@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Sentinel</title>
+</head>
+<body>
+<table  border: 1px solid black><tr valign="top" border = 1><td>
+    <h2><label for="alarm_status_label" id="alarm_status_label" style="font-size:60px">{{ alarm_status }}</label></h2>
+
+</td><td valign="top">
+<p id='BLE' style="font-size:60px"></p>
+</td></tr></table>
+				<label for="alarm_status_label" id="alarm_status_label">{{ alarm_status }}</label>
+
+		<form id="set_start_time" method="POST" action='/iphone_set_alarm'>
+			<input type="text" name="start_time" id="start_time" placeholder="{{ start_time_hm }}" value="{{ start_time_hm }}">
+        <input type="submit" id="set_start_time" value="Set Open Start Time">
+    </form>
+
+		<form id="set_end_time" method="POST" action="/iphone_set_alarm">
+			<input type="text" name="end_time" id="end_time" placeholder="{{ end_time_hm }}" value="{{ end_time_hm }}">
+        <button type="submit" id="set_end_time">Set Close End Time</button>
+    </form>
+
+		<form id="help" method="POST" action="/help">
+			<button type="submit" id="help">Help</button>
+    </form>
+
+<h1>iPhone</h1>
+</body>
+</html>

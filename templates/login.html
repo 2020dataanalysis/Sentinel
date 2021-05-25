@@ -1,0 +1,28 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>BEAR Security</title>
+  <meta name="description" content="BEAR Security">
+  <meta name="author" content="SitePoint">
+
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+
+		 <div class="log-form" style="width:300px;height:500px;">
+		   <h2>BEAR Security Log In</h2>
+		   <form method="post" action="/security">
+				 <img src="{{url_for('static', filename='img_avatar2.png')}}" align="middle" alt="Avatar" class="avatar" width=100 height=100 />
+		     <input type="text" name="username" title="username" placeholder="username"  idth=100px >
+		     <input type="password" name="password" title="username" placeholder="password" />
+		     <button type="submit" class="btn">Login</button>
+		     <!-- <a class="forgot" href="#">Forgot Username?</a> -->
+		   </form>
+		 </div><!--end log form -->
+
+</body>
+</html>

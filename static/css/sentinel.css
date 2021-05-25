@@ -1,0 +1,89 @@
+/* <!--https://www.youtube.com/watch?v=qP-bwQxntyU--> */
+
+/* *{
+    margin: 0;
+    padding: 0;
+} */
+/* body{
+    background: white;
+} */
+div{
+		/* width:	500px;
+		height:	10px; */
+		background: white;
+}
+.text-effect{
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: -o-flex;
+    display: flex;
+    position: absolute;
+    top:        50%;
+    left:       50%;
+    transform:  translate( -50%, -50%);
+    text-transform: uppercase;
+}
+.text-effect li{
+    color: #262626;
+    font-family:    poppins;
+    letter-spacing: 12px;
+    font-size:      8em;
+    list-style:     none;
+    animation:      animate 10s infinite linear;
+}
+@keyframes animate{
+    0%{
+        color: #262626;
+    }
+    20%{
+        color: #ff11ff;
+        text-shadow: 0 0 8px #262626, 0 0 20px #ff11ff;
+    }
+    30%{
+        color: #262626;
+        text-shadow: none;
+    }
+    40%{
+        color: #ff11ff;
+        text-shadow: 0 0 8px #262626, 0 0 20px #ff11ff;
+    }
+    50%{
+        color: #262626;
+        text-shadow: none;
+    }
+    60%{
+        color: #262626;
+        text-shadow: none;
+    }
+    75%{
+        color: #ff11ff;
+        text-shadow: 0 0 8px #262626, 0 0 20px #ff11ff;
+    }
+    100%{
+        color: #262626;
+        text-shadow: none;
+    }
+}
+
+    .text-effect li:nth-child(1){
+        animation-delay: 1s;
+    }
+    .text-effect li:nth-child(2){
+        animation-delay: 1.1s;
+    }
+    .text-effect li:nth-child(3){
+        animation-delay: 1.9s;
+    }
+    .text-effect li:nth-child(4){
+        animation-delay: -1s;
+    }
+    .text-effect li:nth-child(5){
+        animation-delay: 1s;
+    }
+    .text-effect li:nth-child(6){
+        animation-delay: 1.2s;
+    }
+    .text-effect li:nth-child(7){
+        animation-delay: 1.6s;
+    }
