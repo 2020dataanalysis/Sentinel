@@ -1,0 +1,29 @@
+
+
+email error after running for a few days:
+notify
+Traceback (most recent call last):
+  File "server.py", line 994, in <module>
+    background_scheduler()
+  File "server.py", line 396, in background_scheduler
+    mqtt_check_messages()
+  File "server.py", line 408, in mqtt_check_messages
+    messages( i[0], i[1] )
+  File "server.py", line 888, in messages
+    trigger( 1, f'Alarm Triggered ! - ' + m )
+  File "server.py", line 770, in trigger
+    notify( type, 'Alert ' + message, body )
+  File "server.py", line 246, in notify
+    email_server = smtplib.SMTP('smtp.gmail.com', 587)
+  File "/usr/lib/python3.7/smtplib.py", line 251, in __init__
+    (code, msg) = self.connect(host, port)
+  File "/usr/lib/python3.7/smtplib.py", line 336, in connect
+    self.sock = self._get_socket(host, port, self.timeout)
+  File "/usr/lib/python3.7/smtplib.py", line 307, in _get_socket
+    self.source_address)
+  File "/usr/lib/python3.7/socket.py", line 707, in create_connection
+    for res in getaddrinfo(host, port, 0, SOCK_STREAM):
+  File "/usr/lib/python3.7/socket.py", line 748, in getaddrinfo
+    for res in _socket.getaddrinfo(host, port, family, type, proto, flags):
+socket.gaierror: [Errno -3] Temporary failure in name resolution
+pi@pi:~/Desktop/sentinel $

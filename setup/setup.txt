@@ -1,0 +1,226 @@
+sudo pip3 install paho-mqtt
+sudo apt install mosquitto mosquitto-clients
+pip3 install Flask-SocketIO==4.3.1		# Not used
+sudo pip3 install ifaddr
+https://scottontechnology.com/raspberry-pi-webcam-server-using-motion/
+sudo apt-get install motion
+
+# export FLASK_APP=s.py
+flask run --host=0.0.0.0
+
+
+https://www.poftut.com/what-is-default-sftp-port-and-how-to-change-sftp-port-number/
+73.223.16.32
+
+VIPME:
+Atom
+/etc/ssh/sshd_config
+SFTP Port = 31
+sudo systemctl restart sshd
+
+VNC:
+port was 5900
+port new 5800 7/9/2021
+======================================
+
+
+1.	Master source is in d:/archive
+2.	Second on testing Mancave
+3.	Third on BEAR.
+
+
+Error 400:
+https://www.programmersought.com/article/51142439872/
+
+
+Line 79:
+ # Image width (pixels). Valid range: Camera dependent, default: 320
+width 1920
+
+# Image height (pixels). Valid range: Camera dependent, default: 240
+height 1080
+
+
+259: # The quality (in percent) to be used by the jpeg and webp compression (default: 75)
+quality 100
+
+378: text_event %Y%m%d%H%M%S
+
+# Draw characters at twice normal size on images. (default: off)
+text_double on
+
+406: target_dir /home/pi/motion
+
+415:	snapshot_filename %Y%m%d_%H%M%S
+
+462: # Restrict stream connections to localhost only (default: on)
+stream_localhost off
+
+	Description	→	Flask microservice with SVG graphics being updated via asynchronous real time BLE, work schedule, & door events.
+	10/1/2020		When technology is invisible.
+
+					Rich is not loggin in.  Send alarm triggers to him between 6 - 8.
+					8 - 9					Send alarm triggers to Nancy
+					9 - 					Send to Michael.
+	10/1/2020		Deactivate alarm triggered siren via BLE presence.
+
+
+	09/20/2020		Removing LoRa & using Bluetooth
+
+		if VIP_IN_dictionary[name] + 60 < t:		Adjust VIP Out time.
+
+	274			if alarm_set and VIP_IN_dictionary:
+	09/23/2020	Give public access to events & SVG graphics.
+	09/26/2020	213 - Changed vip pop after 60 seconds of MIA
+
+	server.py - Wired Version
+	IOT Door Security - Flask microservice with SVG graphics being updated via asynchronous real time events.
+	Sam Portillo
+	06/01/2020 - 06/26/2020		→	Wireless
+	06/26/2020					→	Wired
+
+	Features:
+		Only 1 user can access settings
+		Optional confirmation when alarm is set & unset.
+		Exponential Alarm email reminder
+		Log of doors toggling, alarm set, confirmations sent
+		Include in email body the log.
+		The security form flashes when alarm is triggered.
+		User does not set alarm when closing:
+			Shop will automatically set alarm & optionally send confirmation:
+				Doors closed
+
+
+	Possible Features
+		Send email to specific recipient depending on the time.
+
+
+	Alternate methods:
+	Raspberry Pi sends one message.
+		(SecondsFromNow = 60, interval=60, times=60)
+		When the alarm is set & a Door opens → door chime.
+		https://stackoverflow.com/questions/40046700/why-doesnt-this-work-is-this-a-apscheduler-bug
+
+	Setup & References:
+		!/usr/bin/env python
+		This code is based off of the following link:
+		https://github.com/miguelgrinberg/Flask-SocketIO
+
+
+		# pip3 install paho-mqtt
+
+		sudo pip install pipenv
+		pipenv install flask-socketio
+		pipenv shell or pipenv run
+		export FLASK_ENV=development
+		export FLASK_APP=sentinel.py
+		flask run --host=0.0.0.0
+		python -m pip install pyserial
+		https://flask-socketio.readthedocs.io/en/latest/
+		jQuery Editor
+		https://www.tutorialspoint.com/online_jquery_editor.php
+		https://stackoverflow.com/questions/14888799/disable-console-messages-in-flask-server
+		https://blog.miguelgrinberg.com/post/easy-websockets-with-flask-and-gevent/page/11
+		https://book.pythontips.com/en/latest/args_and_kwargs.html  **kwargs
+		https://www.geeksforgeeks.org/send-mail-attachment-gmail-account-using-python/?ref=rp
+		https://voice-recorder-online.com/
+		https://stackoverflow.com/questions/25504149/why-does-running-the-flask-dev-server-run-itself-twice
+
+		09/17/2020  pip install simplejson
+
+
+		09/22/2020
+			No pipenv		→ Too much trouble with python 2 & 3, ...
+			No pyserial		→ serial is a native.  just precede Serial.serial.
+			Bluetooth requires pairing with a device that I'm not able to remotely reset.		→ Keep LoRa
+			No LoRa polling		→	MC will repeatedly notify (only) when door is open.
+			https://pimylifeup.com/raspberry-pi-serial/
+			https://www.elinux.org/RPi_Bluetooth_LE
+			sudo apt-get install libglib2.0-dev
+			sudo pip3 install bluepy
+
+			sudo pip3 install Flask-SocketIO
+			export FLASK_APP=s.py
+			flask run --host=0.0.0.0
+
+			Pressing ctrl - z, does not kill child processes.
+			ps, get process ID.
+			kill pid   flask
+
+
+			10/03/2020
+				Divided into modules.
+
+You can access the system from home or work.
+Local: 10.1.10.149:5000
+Remote: 96.86.182.158:5000
+
+
+Full access with:
+UserId: bear
+Password: 1
+
+Arduino Monitor:
+Both NL & CR
+115200 baud
+
+
+-----------------------------
+Green:
+Device fc:58:fa:53:cb:32 (public), RSSI=-33 dB
+  Flags = 06
+  Complete 16b Services = 0000ffe0-0000-1000-8000-00805f9b34fb,00001802-0000-1000-8000-00805f9b34fb
+  Complete Local Name = ITAG
+
+
+Yellow:
+Device
+fc:58:fa:41:b5:e2 (public), RSSI=-35 dB
+  Flags = 06
+  Complete 16b Services = 0000ffe0-0000-1000-8000-00805f9b34fb,00001802-0000-1000-8000-00805f9b34fb
+  Complete Local Name = ITAG
+
+
+Black:
+Device fc:58:fa:54:29:5f (public), RSSI=-63 dB
+  Flags = 06
+  Complete 16b Services = 0000ffe0-0000-1000-8000-00805f9b34fb,00001802-0000-1000-8000-00805f9b34fb
+  Complete Local Name = ITAG
+
+
+
+Purple:
+Device fc:58:fa:18:8f:1b (public), RSSI=-74 dB
+  Flags = 06
+  Complete 16b Services = 0000ffe0-0000-1000-8000-00805f9b34fb,00001802-0000-1000-8000-00805f9b34fb
+  Complete Local Name = ITAG
+
+
+
+White:
+Device fc:58:fa:41:cb:b5 (public), RSSI=-78 dB
+  Flags = 06
+  Complete 16b Services = 0000ffe0-0000-1000-8000-00805f9b34fb,00001802-0000-1000-8000-00805f9b34fb
+  Complete Local Name = ITAG
+
+
+
+
+---------------
+10/20/2020
+Sending trigger notifcations to employees based on time.
+Rich:
+	Phone Number:		15103777652
+	Carrier:				Sprint
+	Is Wireless:		y
+	SMS Gateway Address:		5103777652@messaging.sprintpcs.com
+	MMS Gateway Address:		5103777652@pm.sprint.com
+
+
+
+Michael:
+	Phone Number:				15104272873
+Carrier:							Verizon Wireless
+Is Wireless:					y
+SMS Gateway Address:	5104272873@vtext.com
+MMS Gateway Address:	5104272873@vzwpix.com

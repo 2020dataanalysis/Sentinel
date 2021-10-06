@@ -1,0 +1,350 @@
+<!-- #	index.html
+#	IOT Door Security - Flask microservice with SVG graphics being updated via asynchronous real time events.
+#	Sam Portillo
+#	06/01/2020 -->
+
+
+	<!-- https://www.tutorialspoint.com/online_jquery_editor.php -->
+	<!-- https://stackoverflow.com/questions/743994/how-do-i-select-an-element-in-jquery-by-using-a-variable-for-the-id -->
+
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Door Security System</title>
+
+ 		<link rel="stylesheet" href="{{ url_for('static', filename='css/sentinel.css') }}">
+
+
+
+
+    <!-- <script src="//code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script> -->
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script>
+    <script type="text/javascript" charset="utf-8">
+        $(document).ready(function()
+				{
+            // Use a "/test" namespace.
+            // An application can open a connection on multiple namespaces, and
+            // Socket.IO will multiplex all those connections on a single
+            // physical channel. If you don't care about multiple channels, you
+            // can set the namespace to an empty string.
+            namespace = '/test';
+						//alert('test working')
+            // Connect to the Socket.IO server.
+            // The connection URL has the following format, relative to the current page:
+            //     http[s]://<domain>:<port>[/<namespace>]
+            var socket = io(namespace);
+
+            // Event handler for new connections.
+            // The callback function is invoked when a connection with the
+            // server is established.
+            socket.on('connect', function()
+						{
+                socket.emit('my_event', {data: 'I\'m connected!'});
+            });
+
+						socket.on('toggle_alarm', function(alarm_status_update)
+						{
+							//	$("#alarm_button").prop("value", value);
+							//alert(alarm_status_update);
+							$("label[for='alarm_status_label']").text( alarm_status_update );
+
+								$('ul').hide();
+//								alert('{{alarm_status}}')
+						});
+
+						socket.on('toggle_patrol', function(value){
+							$('#patrol_button').prop('value', value);
+
+						});
+
+
+						socket.on('alarm_triggered', function(){
+							$('ul').show();
+							$('audio')[0].play();
+						});
+
+						socket.on('alarm_reset', function(){
+							$('ul').hide();
+							var nuke = document.getElementById("nuclear");
+							nuke.pause();
+
+							nuke.controls = false;
+						});
+
+
+						socket.on('BLE', function(VIP)
+						{
+								console.log( VIP );
+								$('#BLE').text('').html();
+
+								var i;
+								for (i = 0; i < VIP.length; ++i)
+				        {
+										$('#BLE').append('<br>' + $('<div/>').text( VIP[i] ).html());
+				        }
+						});
+
+
+
+
+						socket.on('status', function(status)
+						{
+							$(open0). attr("display", "none");
+							$(open1). attr("display", "none");
+							$(open2). attr("display", "none");
+							$(open3). attr("display", "none");
+							$(open4). attr("display", "none");
+							$(open5). attr("display", "none");
+
+							$(closed0). attr("display", "none");
+							$(closed1). attr("display", "none");
+							$(closed2). attr("display", "none");
+							$(closed3). attr("display", "none");
+							$(closed4). attr("display", "none");
+							$(closed5). attr("display", "none");
+
+							$("#patrol_text").val( status );
+
+							var i;
+							for (i = 0; i < status.length; ++i)
+			        {
+								if ( isNaN( status[i] ) )
+				        	$( '#' + status[i] ). attr("display", "block");
+			        }
+						});
+
+            // Event handler for server sent data.
+            // The callback function is invoked whenever the server emits data
+            // to the client. The data is then displayed in the "Received"
+            // section of the page.
+            socket.on('my_response', function(msg, cb)
+						{
+                $('#log').append('<br>' + $('<div/>').text('#' + msg.count + ': ' + msg.data).html());
+                if (cb)
+                    cb();
+            });
+
+            // Interval function that tests message latency by sending a "ping"
+            // message. The server then responds with a "pong" message and the
+            // round trip time is measured.
+            var ping_pong_times = [];
+            var start_time;
+            window.setInterval(function() {
+                start_time = (new Date).getTime();
+                socket.emit('my_ping');
+            }, 5000);
+
+            // Handler for the "pong" message. When the pong is received, the
+            // time from the ping is stored, and the average of the last 30
+            // samples is average and displayed.
+            socket.on('my_pong', function() {
+                var latency = (new Date).getTime() - start_time;
+                ping_pong_times.push(latency);
+                ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
+                var sum = 0;
+                for (var i = 0; i < ping_pong_times.length; i++)
+                    sum += ping_pong_times[i];
+                $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
+            });
+
+            // // Handlers for the different forms in the page.
+            // // These accept data from the user and send it to the server in a
+            // // variety of ways
+            // $('form#emit').submit(function(event) {
+            //     socket.emit('my_event', {data: $('#emit_data').val()});
+            //     return false;
+            // });
+            // $('form#broadcast').submit(function(event) {
+            //     socket.emit('my_broadcast_event', {data: $('#broadcast_data').val()});
+            //     return false;
+            // });
+
+            $('form#alarm').submit(function(event)
+						 {
+                socket.emit('alarm');
+                return false;
+            });
+
+						$('form#patrol').submit(function(event)
+						{
+								socket.emit('patrol');
+								return false;
+						}
+					);
+
+					$('form#set_start_time').submit(function(event)
+					{
+							socket.emit('set_start_time', {data: $('#start_time').val()});
+							return false;
+					}
+				);
+
+				$('form#set_end_time').submit(function(event)
+				{
+						socket.emit('set_end_time', {data: $('#end_time').val()});
+						return false;
+				}
+			);
+
+            // $('form#disconnect').submit(function(event) {
+            //     socket.emit('disconnect_request');
+            //     return false;
+            // });
+
+												$('.do-it').on('click', () => {
+										        // $('div').addClass('text-effect');
+														$('ul').show();
+														$('audio')[0].play();
+										    });
+
+
+												        $('.trigger').on('click', () =>
+																{
+												           // $('div').removeClass('text-effect');
+																		// $('ul').removeClass('text-effect');
+																		$('ul').hide();
+																		// $('audio')[0].pause();
+
+
+																		var nuke = document.getElementById("nuclear");
+
+																		 // $('nuke').pause();
+																		 nuke.pause();
+																		// $('audio')[0].trigger('pause');
+																		//$('.play').prop("paused");
+
+
+																		socket.emit('reset-trigger');
+												        });
+
+
+
+						$('ul').hide();
+						var nuke = document.getElementById("nuclear");
+						nuke.pause();
+
+
+
+						$(open0). attr("display", "none");
+						$(open1). attr("display", "none");
+						$(open2). attr("display", "none");
+						$(open3). attr("display", "none");
+						$(open4). attr("display", "none");
+						$(open5). attr("display", "none");
+
+						$(closed0). attr("display", "none");
+						$(closed1). attr("display", "none");
+						$(closed2). attr("display", "none");
+						$(closed3). attr("display", "none");
+						$(closed4). attr("display", "none");
+						$(closed5). attr("display", "none");
+        });
+    </script>
+
+
+
+
+</head>
+<body>
+<table  border: 1px solid black><tr valign="top" border = 1><td>
+    <h2><label for="alarm_status_label" id="alarm_status_label" style="font-size:60px">{{ alarm_status }}</label></h2>
+
+		<svg width="400" height="160">
+		  <rect x= 32.5 y = 0 	width="135" height="45" fill='aqua' stroke='blue'/>
+		  <rect x = 0   y = 45 	width="200" height="90" fill='aqua' stroke='blue' />
+		  <rect x = 75  y = 135 width="50" height="10" fill='aqua' stroke='blue' />
+
+			<line id='closed2' x1=85   y1=145 x2=100   y2=145	stroke='red' stroke-width='5' />
+			<line id='closed1' x1=100   y1=145 x2=115   y2=145	stroke='red' stroke-width='5' />
+
+			<line id='closed0' x1=0 	 y1=85  x2=0 	 y2=100	stroke='red' stroke-width='5' />
+		  <!-- <line id='closed2' x1=200 	 y1=90 	x2=200	 y2=105	stroke='red' stroke-width='5' /> -->
+		  <line id='closed3' x1=167.5 y1=25 	x2=167.5 y2=40 	stroke='red' stroke-width='5' />
+		  <line id='closed4' x1=170   y1=45 	x2=185   y2=45 	stroke='red' stroke-width='5' />
+		  <line id='closed5' x1=32.5  y1=25 	x2=32.5  y2=40 	stroke='red' stroke-width='5' />
+
+			<line id='open2' x1=85   	y1=145 x2=100		y2=155	stroke='green' stroke-width='4' />
+			<line id='open1' x1=100   y1=155 x2=115		y2=145	stroke='green' stroke-width='4' />
+
+			<line id="open0" x1=10 	 y1=85  x2=0 	 y2=100	stroke='green' stroke-width='4' />
+		  <!-- <line id='open2' x1=200 	 y1=90 	x2=210	 y2=105	stroke='green' stroke-width='4' /> -->
+		  <line id='open3' x1=167.5 y1=20 	x2=175 y2=35 	stroke='green' stroke-width='4' />
+		  <line id='open4' x1=175   y1=45 	x2=190   y2=35 	stroke='green' stroke-width='4' />
+		  <line id='open5' x1=25  y1=25 	x2=32.5  y2=40 	stroke='green' stroke-width='4' />
+		</svg>
+
+</td><td valign="top">
+<!-- <h1><p id='BLE'></p></h1> -->
+<p id='BLE' style="font-size:60px"></p>
+</td></tr></table>
+
+
+
+
+
+
+
+
+
+
+
+    <form id="alarm" method="POST" action='#'>
+				<label for="alarm_status_label" id="alarm_status_label">{{ alarm_status }}</label>
+    </form>
+
+		<form id="set_start_time" method="POST" action='#'>
+			<input type="text" name="start_time" id="start_time" placeholder="{{ start_time_hm }}" value="{{ start_time_hm }}">
+        <input type="submit" id="set_start_time" value="Set Open Start Time">
+    </form>
+
+		<form id="set_end_time" method="POST" action='#'>
+			<input type="text" name="end_time" id="end_time" placeholder="{{ end_time_hm }}" value="{{ end_time_hm }}">
+        <input type="submit" id="set_end_time" value="Set Close End Time">
+    </form>
+
+{% if session['user'] != 'sam0': %}
+		<form id="settings" method="POST" action="settings">
+        <input type="submit" value="Settings">
+    </form>
+{% endif %}
+
+<form id="help" method="POST" action="/help">
+	<button type="submit" id="help">Help</button>
+</form>
+
+<form id="logout-disconnect" method="POST" action="login.html">
+		<input type="submit" value="Log Out">
+</form>
+
+
+
+<div class='trigger'>
+		<ul class='text-effect'>
+				<li>i</li>
+				<li>n</li>
+				<li>t</li>
+				<li>r</li>
+				<li>u</li>
+				<li>d</li>
+				<li>e</li>
+				<li>r</li>
+		</ul>
+</div>
+<!-- <div class='do-it'>Test Trigger.</div> -->
+		<p>
+    <h2>Log:</h2>
+    <div id="log">
+
+			{% for i in response_log %}
+				#{{ i['count'] }}: {{ i['data'] }}<br>
+			{% endfor %}
+		</div>
+		<p><br>
+				<!-- <audio controls id='nuclear'> Removing controls removes audio controller -->
+				<audio controls id='nuclear'>
+		    	<source src="{{ url_for('static', filename='nuclear_alarm.mp3') }}" type="audio/mpeg">
+				</audio>
+</body>
+</html>

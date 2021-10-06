@@ -1,0 +1,68 @@
+<!doctype html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <title>BEAR Security</title>
+  <meta name="description" content="BEAR Security">
+  <meta name="author" content="SitePoint">
+
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+
+<body>
+
+		 <div class="log-form" style="width:300px;height:500px;">
+
+		   <h2>BEAR Sentinel Security - Settings</h2>
+			 <form method=post action="settings/save" >
+			 <style type="text/css">
+			 .tg  {border-collapse:collapse;border-spacing:0;}
+			 .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+			   overflow:hidden;padding:10px 5px;word-break:normal;}
+			 .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+			   font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+			 .tg .tg-0lax{text-align:left;vertical-align:top}
+			 </style>
+			 Arm / Disarm Period<br>
+			 <table class="tg">
+			 <thead>
+			   <tr>
+			     <th class="tg-0lax">Day</th>
+			     <th class="tg-0lax">Start Time</th>
+			     <th class="tg-0lax">End Time</th>
+			   </tr>
+
+				 <!-- Using list to index because  arm_period.keys().index(d) → error no index function -->
+					{% for d in week: %}
+						 <tr>
+							 <th class="tg-0lax">{{ d }}</th>
+							 <th class="tg-0lax">   <input type="text" name="start_time_{{ d }}" title="start_time" placeholder="Start Time"  idth=100px value="{{ arm_period[d][0] }}" >  </th>
+							 <th class="tg-0lax">   <input type="text" name="end_time_{{ d }}"	title="end_time" 	 placeholder="End Time" 	 idth=100px value="{{ arm_period[d][1] }}" >  </th>
+					 </tr>
+				 {% endfor %}
+
+
+			 </thead>
+			 </table>
+
+			 <p>
+			 User Log in Dictionary:
+			 <textarea name="users" rows="5" cols="30">{{ users }}</textarea>
+
+			 <br>
+			 Email Alert Responders List (Separate with a comma ','):
+			 <textarea name="recipients_email" rows="5" cols="30">{{ recipients }}</textarea>
+
+
+			 <br>
+			 <input type="checkbox" id="confirmation" name="confirmation" value="confirmation" {{ confirmation }}>
+			 <label for='confirmation'>Receive Confirmation of (un)setting of Alarm.</label><br>
+
+			 <button type='submit'>Submit</button>
+</form>
+		 </div><!--end log form -->
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+
+zigbee2mqtt:
+https://www.zigbee2mqtt.io/getting_started/running_zigbee2mqtt.html
+https://notenoughtech.com/home-automation/adding-devices-to-zigbee2mqtt-the-easy-way/
+ #Stopping zigbee2mqtt
+ sudo systemctl stop zigbee2mqtt
+
+ #Starting zigbee2mqtt
+ sudo systemctl start zigbee2mqtt
+
+ #View the log of zigbee2mqtt
+ sudo journalctl -u zigbee2mqtt.service -f
+
+../../opt/zigbee2mqtt/scripts/npm start
+
+zigbee2mqtt/0x286d9700010d9cd0
+{"battery":89,"battery_low":false,"contact":true,"linkquality":94,"moving":false,"tamper":false,"temperature":22.59,"x_axis":-1030,"y_axis":-53,"z_axis":3}

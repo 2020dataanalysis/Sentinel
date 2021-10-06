@@ -1,0 +1,311 @@
+<!--
+	IOT Door Security - Flask microservice with SVG graphics being updated via asynchronous real time events.
+	Sam Portillo
+	05/01/2021	Sensor Status List by Index
+-->
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Door Security System</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/sentinel.css') }}">
+		<!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+		<!-- <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.js" integrity="sha256-yr4fRk/GU1ehYJPAs8P4JlTgu0Hdsp4ZKrx8bDEDC3I=" crossorigin="anonymous"></script> -->
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.js" integrity="sha512-aMGMvNYu8Ue4G+fHa359jcPb1u+ytAF+P2SCb+PxrjCdO3n3ZTxJ30zuH39rimUggmTwmh2u7wvQsDTHESnmfQ==" crossorigin="anonymous"></script>
+		<script type="text/javascript" charset="utf-8">
+			$(document).ready(function()
+			{
+				// namespace = '/test';
+				// var socket = io(namespace);
+				// // alert( "{{ location }}" );
+				//
+				// socket.on('connect', function()
+				// {
+				// 	//	This script sends initial handshake.
+				// 	socket.emit('my_event', {data: 'I\'m connected!'});
+				// 	$('ul').hide();
+				// 	// var nuke = document.getElementById("nuclear");
+				// 	// nuke.controls = false;
+				// });
+				//
+				// socket.on('toggle_alarm', function(alarm_status_update)
+				// {
+				// 	$("label[for='alarm_status_label']").text( alarm_status_update );
+				// 	$('ul').hide();
+				// });
+				//
+				// socket.on('alarm_triggered', function()
+				// {
+				// 	$('ul').show();
+				// 	var nuke = document.getElementById("nuclear");
+				// 	nuke.controls = true;
+				// 	nuke.play();
+				// 	$('audio')[0].play();
+				// });
+				//
+				// socket.on('alarm_reset', function()
+				// {
+				// 	$('ul').hide();
+				// 	var nuke = document.getElementById("nuclear");
+				// 	nuke.pause();
+				// 	nuke.controls = false;
+				// });
+				//
+				// socket.on('BLE', function(VIP)
+				// {
+				// 	console.log( VIP );
+				// 	$('#BLE').text('').html();
+				//
+				// 	var i;
+				// 	for (i = 0; i < VIP.length; ++i)
+				// 	{
+				// 		$('#BLE').append('<br>' + $('<div/>').text( VIP[i] ).html());
+				// 	}
+				// });
+				//
+				// socket.on('status', function(status)
+				// {
+				// 	$(open0). attr("display", "none");
+				// 	$(open1). attr("display", "none");
+				// 	$(open2). attr("display", "none");
+				// 	$(open3). attr("display", "none");
+				// 	$(open4). attr("display", "none");
+				// 	$(open5). attr("display", "none");
+				//
+				// 	$(closed0). attr("display", "none");
+				// 	$(closed1). attr("display", "none");
+				// 	$(closed2). attr("display", "none");
+				// 	$(closed3). attr("display", "none");
+				// 	$(closed4). attr("display", "none");
+				// 	$(closed5). attr("display", "none");
+				//
+				// 	$("#patrol_text").val( status );
+				//
+				// 	var i;
+				// 	for (i = 0; i < status.length; ++i)
+				// 	{
+				// 		//	Possible values for sensor_status [-1, 0, 1]
+				// 		if ( status[i] == 0 )
+				// 		{
+				// 			$( '#closed' + i ). attr("display", "block");
+				// 		}
+				//
+				// 		if ( status[i] == 1 )
+				// 			$( '#open' + i ).attr("display", "block");
+				// 	}
+				//
+				// });
+				//
+				// socket.on('my_response', function(msg, cb)
+				// {
+				// 	if ( msg.data.indexOf(".jpg") < 0 )
+				// 	{
+				// 		$('#log').append( '<br>' + $('<div/>').text('#' + msg.count + ': ' + msg.data ).html() );
+				// 		$('#log').append( $( '<br>' ) );
+				// 	}
+				// 	//	https://www.talkinghightech.com/en/use-tilde-operator-javascript/
+				// 	//						 								if (str.indexOf("abc")!==-1) {
+				// 	// }
+				// 	// // Converts to
+				// 	// if (~str.indexOf("abc")) {
+				// 	// }
+				// 	if (~msg.data.indexOf(".jpg"))
+				// 	{
+				// 		image = msg.data.split(" ")
+				// 		// $('#log').append( '<br>	<img src="static/snapshots/' + image[2] + '" align="middle" alt="Avatar" class="avatar" width=100 height=100 />').html();				//	View image on computer
+				// 		$('#log').append( '<img src="http://bayrvs.com/{{ location }}/snapshots/' + image[2] + '" align="middle" alt="Avatar" class="avatar" width=100 height=100 />').html();
+				// 	}
+				//
+				// if (cb)
+				// 	cb();
+				// });
+				//
+				//
+				//
+				// socket.on('zrequest_log_response', function( response_log )
+				// {
+				// 	$('#log').empty();
+				// 	for (i = 0; i < response_log.length; i++)
+				// 	{
+				// 		log_selection( response_log[i] );
+				// 	}
+				// });
+				//
+				// function log_selection( msg )
+				// {
+				// 	if ( msg.data.indexOf(".jpg") < 0 )
+				// 	{
+				// 		$('#log').append( $( '<br>' ) );
+				// 		$('#log').append( $('<div/>' ).text('#' + msg.count + ': ' + msg.data ).html());
+				// 		$('#log').append( $( '<br>' ) );
+				// 	}
+				//
+				// 	if (~msg.data.indexOf(".jpg"))
+				// 	{
+				// 		image = msg.data.split(" ")
+				// 		// $('#log').append( '<br>	<img src="static/snapshots/' + image[2] + '" align="middle" alt="Avatar" class="avatar" width=100 height=100 />').html();				//	View image on computer
+				// 		$('#log').append( '<br>	<img src="http://bayrvs.com/{{ location }}/snapshots/' + image[2] + '" align="middle" alt="Avatar" class="avatar" width=100 height=100 />').html();
+				// 	}
+				// }
+				//
+				//
+				//
+				// // Interval function that tests message latency by sending a "ping"
+				// // message. The server then responds with a "pong" message and the
+				// // round trip time is measured.
+				// var ping_pong_times = [];
+				// var start_time;
+				// window.setInterval(function() {
+				// 	start_time = (new Date).getTime();
+				// 	socket.emit('my_ping');
+				// }, 10000);
+				//
+				// // Handler for the "pong" message. When the pong is received, the
+				// // time from the ping is stored, and the average of the last 30
+				// // samples is average and displayed.
+				// socket.on('my_pong', function() {
+				// 	var latency = (new Date).getTime() - start_time;
+				// 	ping_pong_times.push(latency);
+				// 	ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
+				// 	var sum = 0;
+				// 	for (var i = 0; i < ping_pong_times.length; i++)
+				// 	sum += ping_pong_times[i];
+				// 	$('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
+				// });
+				//
+				//
+				// $('form#set_start_time').submit(function(event)
+				// {
+				// 	socket.emit('set_start_time', {data: $('#start_time').val()});
+				// 	return false;
+				// });
+				//
+				// $('form#set_end_time').submit(function(event)
+				// {
+				// 		socket.emit('set_end_time', {data: $('#end_time').val()});
+				// 		return false;
+				// });
+				//
+				// $('.do-it').on('click', () => {
+				// 	$('ul').show();
+				// 	$('audio')[0].play();
+				// });
+				//
+				// $('.trigger').on('click', () =>
+				// {
+				// 	$('ul').hide();
+				// 	var nuke = document.getElementById("nuclear");
+				// 	nuke.pause();
+				// 	socket.emit('reset-trigger');
+				// });
+				//
+				// $( ".select_day" ).change(function() {
+				// socket.emit('request_log', {data: $('#select_day').val()	});
+				// });
+
+			});
+		</script>
+	</head>
+	<body>
+
+
+		<div id="VIP_IN">
+
+				{% if VIP_IN %}
+					<h3>VIP:<br>
+						{% for i in VIP_IN.keys() %}
+							{{ i }}<br>
+						{% endfor %}
+					</h3>
+				{% endif %}
+
+		</div>
+
+
+
+		<table  border: 1px solid black><tr valign="top" border = 1><td>
+			<h2><label for="alarm_status_label" id="alarm_status_label" style="font-size:60px">{{ alarm_status }}</label></h2>
+
+		</td><td valign="top">
+		<!-- <h1><p id='BLE'></p></h1> -->
+		<p id='BLE' style="font-size:60px"></p>
+		</td></tr></table>
+
+		<form id="alarm" method="POST" action='#'>
+			<label for="alarm_status_label" id="alarm_status_label">{{ alarm_status }}</label>
+		</form>
+	<!--
+			<form id="set_start_time" method="POST" action='#'>
+				<input type="text" name="start_time" id="start_time" placeholder="{{ start_time_hm }}" value="{{ start_time_hm }}">
+	        <input type="submit" id="set_start_time" value="Set Open Start Time">
+	    </form>
+
+			<form id="set_end_time" method="POST" action='#'>
+				<input type="text" name="end_time" id="end_time" placeholder="{{ end_time_hm }}" value="{{ end_time_hm }}">
+	        <input type="submit" id="set_end_time" value="Set Close End Time">
+	    </form>
+
+	{% if session['user'] != 'sam0': %}
+			<form id="settings" method="POST" action="settings">
+	        <input type="submit" value="Settings">
+	    </form>
+	{% endif %}
+
+	<form id="logout-disconnect" method="POST" action="login.html">
+			<input type="submit" value="Log Out">
+	</form> -->
+
+
+
+	<!-- <div class='trigger'>
+			<ul class='text-effect'>
+					<li>i</li>
+					<li>n</li>
+					<li>t</li>
+					<li>r</li>
+					<li>u</li>
+					<li>d</li>
+					<li>e</li>
+					<li>r</li>
+			</ul>
+	</div> -->
+
+	<!-- <div class='do-it'>Test Trigger.</div> -->
+
+
+	<label for="Day">Choose a Day:</label>
+	<select name="select_day" id="select_day" class="select_day">
+		{% for i in days[:-1] %}
+			<option value="{{i}}">{{i}}</option>
+		{% endfor %}
+	<option value="{{ days[-1] }}" selected >{{ days[-1] }}</option>
+	</select>
+
+	<p>
+	<h2>Log:</h2>
+	<div id="log">
+
+	{% for i in select_log %}
+		{% if '.jpg' not in i['data'] %}
+			<br>#{{ i['count'] }}: {{ i['data'] }}<br>
+		{% endif %}
+
+		{% if '.jpg' in i['data'] %}
+			{% set image = i['data'].split(" ") %}
+			<img src="http://bayrvs.com/{{ location }}/snapshots/{{ image[2] }}" align="middle" alt="Avatar" class="avatar" width=100 height=100 />
+		{% endif %}
+	{% endfor %}
+	</div>
+
+	<!-- <p>ping/pong latency: <b><span id="ping-pong"></span>ms</b></p> -->
+	<p><br>
+		<!-- <audio controls id='nuclear'> Removing controls removes audio controller -->
+	<!-- <audio controls id='nuclear'>
+		<source src="{{ url_for('static', filename='nuclear_alarm.mp3') }}" type="audio/mpeg">
+	</audio> -->
+
+	<h4>Sentinel Security System</h4>
+		<!-- © 2021 Copyright. -->
+	</body>
+</html>

@@ -1,0 +1,29 @@
+MQTT - Random junk notes
+https://www.eclipse.org/paho/index.php?page=clients/python/docs/index.php
+https://pagefault.blog/2020/02/05/how-to-set-up-persistent-storage-for-mosquitto-mqtt-broker/
+http://www.steves-internet-guide.com/mosquitto_pub-sub-clients/
+http://www.steves-internet-guide.com/mqtt-clean-sessions-example/
+http://www.steves-internet-guide.com/mqtt-keep-alive-by-example/
+http://www.steves-internet-guide.com/mqtt-retained-messages-example/
+https://stackoverflow.com/questions/36093078/mqtt-is-there-a-way-to-check-if-the-client-is-still-connected
+
+https://www.zigbee2mqtt.io/getting_started/running_zigbee2mqtt.html
+https://www.zigbee2mqtt.io/getting_started/pairing_devices.html
+
+sudo systemctl start mosquitto.service
+sudo systemctl stop mosquitto.service
+/var/lib/mosquitto/mosquitto.db
+
+
+Use windows MQTT Explorer.
+mosquitto_sub -h 10.0.0.12 -t '#'
+mosquitto_sub -h 10.1.10.183 -t '#'
+
+mosquitto_pub -d -t "esp32" -m "print=0,0,5,0,Hi Pet !"
+mosquitto_pub -d -t "esp32" -m "flash=31,65535"
+mosquitto_pub -d -t "office/door1" -m 0
+mosquitto_pub -d -t "office/door1" -m 1
+mosquitto_pub -d -t "command/office/doors/terminal" -m "print=0,0,4,0,Alarm Not Set"
+mosquitto_pub -d -t "command/office/doors/terminal" -m "print=0,0,5,0,Alarm Set"
+
+mosquitto_pub -d -t "command/office" -m "light"
